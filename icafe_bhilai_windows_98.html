@@ -1,0 +1,1751 @@
+<!-- ... existing code ... -->
+  /* ===== DESKTOP & 3D SPATIAL STAGE ===== */
+  #desktop {
+    position: absolute;
+    inset: 0 0 32px 0;
+    background-color: var(--win98-desktop);
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0),
+      radial-gradient(circle at 50% 35%, rgba(16, 132, 208, 0.18), rgba(0, 50, 50, 0.45));
+    background-size: 24px 24px, 100% 100%;
+    overflow: hidden;
+    transition: background-position 0.15s ease-out;
+  }
+
+  /* Timer Bar at Top */
+  #timer-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 26px;
+    background: linear-gradient(90deg, #000066, #000080 50%, #0b5fa5);
+    color: #fff;
+    padding: 2px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    z-index: 450;
+    border-bottom: 2px solid #0a0a0a;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  }
+  #timer-bar .timer-red {
+    color: #ff6666;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background: #000;
+    padding: 1px 6px;
+    border: 1px inset #666;
+  }
+  #timer-bar .cafe-name {
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .top-bar-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .win98-chip-btn {
+    background: var(--win98-surface);
+    color: #000;
+    font-family: "Tahoma", sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 7px;
+    min-height: 19px;
+    border: none;
+    box-shadow: var(--bevel-raised-3d);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .win98-chip-btn:active, .win98-chip-btn.pressed {
+    box-shadow: var(--bevel-sunken-3d);
+    background: #dfdfdf;
+  }
+
+  /* Desktop Icons with 3D Depth */
+  .desktop-icon {
+    position: absolute;
+    width: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 4px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.12s, box-shadow 0.16s;
+  }
+  .desktop-icon:hover {
+    background: rgba(0, 0, 128, 0.32);
+    border: 1px dotted #ffff88;
+  }
+  body.depth-3d .desktop-icon:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.32);
+  }
+  .desktop-icon.selected {
+    background: rgba(0, 0, 128, 0.55);
+    border: 1px dotted #fff;
+  }
+  .desktop-icon .icon-img {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.55));
+  }
+  .desktop-icon .icon-img img {
+    width: 32px;
+    height: 32px;
+  }
+  .desktop-icon .icon-label {
+    color: #fff;
+    font-size: 11px;
+    text-shadow: 1px 1px 0px #000, 1px 2px 3px rgba(0,0,0,0.85);
+    word-break: break-word;
+    line-height: 1.2;
+    padding: 1px 2px;
+  }
+  .desktop-icon.selected .icon-label {
+    background: #000080;
+    color: #fff;
+    outline: 1px dotted #ffff00;
+  }
+
+  /* 3D Sticky Note on Desktop */
+  #sticky-note {
+    position: absolute;
+    top: 38px;
+    right: 16px;
+    background: linear-gradient(155deg, #ffffa8 0%, #fff066 100%);
+    border: 1px solid #b59b00;
+    border-top: 8px solid #e6c300;
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.65;
+    width: 178px;
+    font-family: "Courier New", monospace;
+    color: #1a1a1a;
+    box-shadow:
+      inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+      5px 7px 0 rgba(0, 0, 0, 0.38),
+      8px 12px 18px rgba(0, 0, 0, 0.35);
+    z-index: 90;
+    cursor: default;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  body.depth-3d #sticky-note {
+    transform: rotate(-1.5deg);
+  }
+  body.depth-3d #sticky-note:hover {
+    transform: rotate(0deg) translateY(-2px);
+    box-shadow:
+      inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+      7px 10px 0 rgba(0, 0, 0, 0.42),
+      12px 16px 24px rgba(0, 0, 0, 0.38);
+  }
+  #sticky-note strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #800000;
+    border-bottom: 1px dashed #b59b00;
+    padding-bottom: 2px;
+  }
+<!-- ... existing code ... -->
+  /* ===== 3D WINDOWS (98.css + Tactile Extrusion) ===== */
+  .win98-window {
+    position: absolute;
+    background: var(--win98-surface);
+    padding: 3px;
+    box-shadow: var(--window-3d-shadow-inactive);
+    min-width: 200px;
+    min-height: 100px;
+    display: none;
+    z-index: 200;
+    transition: box-shadow 0.15s ease;
+  }
+  .win98-window.active-window {
+    box-shadow: var(--window-3d-shadow-active);
+  }
+  body.depth-3d .win98-window.active-window {
+    box-shadow:
+      inset 1px 1px 0px #ffffff,
+      inset -1px -1px 0px #808080,
+      inset 2px 2px 0px #dfdfdf,
+      inset -2px -2px 0px #0a0a0a,
+      8px 10px 0px rgba(0, 0, 0, 0.48),
+      16px 22px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .win-titlebar {
+<!-- ... existing code ... -->
+  /* ===== CALCULATOR ===== */
+  #calc-window .win-content {
+    padding: 6px;
+    background: var(--win98-surface);
+    width: 212px;
+  }
+  .calc-display-box {
+    background: #f4f8f0;
+    box-shadow: var(--bevel-sunken-3d);
+    padding: 3px 7px;
+    margin-bottom: 6px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: "Courier New", monospace;
+  }
+  .calc-subdisplay {
+    font-size: 10px;
+    color: #556b55;
+    text-align: right;
+    min-height: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .calc-display {
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    color: #002200;
+    line-height: 1.1;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .calc-row {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+  .calc-btn {
+    flex: 1;
+    height: 26px;
+    min-width: 0;
+    padding: 0;
+    font-size: 11px;
+    font-weight: bold;
+    background: var(--win98-surface);
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--bevel-raised-3d);
+    color: #000080;
+    position: relative;
+    z-index: 2;
+  }
+  .calc-btn:hover {
+    background: #dcdcdc;
+  }
+  .calc-btn:active, .calc-btn.active-op {
+    box-shadow: var(--bevel-sunken-3d);
+    background: #d0d0d0;
+    transform: translate(1px, 1px);
+  }
+  .calc-btn.orange {
+    color: #800000;
+  }
+
+  /* ===== WINAMP / MEDIA PLAYER 98 WINDOW ===== */
+  #music-window .win-content {
+    padding: 6px;
+    background: var(--win98-surface);
+  }
+  .mp-deck {
+    background: linear-gradient(180deg, #1a1e24 0%, #0d1015 100%);
+    box-shadow: var(--bevel-sunken-3d);
+    padding: 8px;
+    color: #00ff66;
+    font-family: "Courier New", monospace;
+    margin-bottom: 6px;
+  }
+  .mp-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 8px;
+  }
+  .mp-time-box {
+    background: #040806;
+    border: 1px inset #335533;
+    padding: 2px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #00ff66;
+    text-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
+    letter-spacing: 1px;
+    min-width: 72px;
+    text-align: center;
+  }
+  .mp-marquee-box {
+    flex: 1;
+    background: #040806;
+    border: 1px inset #335533;
+    padding: 3px 6px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .mp-track-title {
+    font-size: 11px;
+    color: #ffdd44;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mp-meta-line {
+    font-size: 9px;
+    color: #77cc99;
+    margin-top: 1px;
+  }
+  #mp-visualizer {
+    width: 100%;
+    height: 58px;
+    background: #030705;
+    border: 1px inset #2a4433;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .mp-seek-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .mp-seek-bar {
+    flex: 1;
+    height: 10px;
+    background: #050a08;
+    box-shadow: var(--bevel-sunken-3d);
+    cursor: pointer;
+    position: relative;
+  }
+  .mp-seek-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00aa44, #ccff00);
+    pointer-events: none;
+  }
+  .mp-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    background: var(--win98-surface);
+    padding: 4px 2px;
+  }
+  .mp-transport {
+    display: flex;
+    gap: 3px;
+  }
+  .mp-btn {
+    height: 24px;
+    min-width: 32px;
+    padding: 0 7px;
+    font-size: 11px;
+    font-weight: bold;
+    background: var(--win98-surface);
+    color: #000;
+    border: none;
+    box-shadow: var(--bevel-raised-3d);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mp-btn:hover {
+    background: #dcdcdc;
+  }
+  .mp-btn:active, .mp-btn.active-play {
+    box-shadow: var(--bevel-sunken-3d);
+    background: #cfcfcf;
+  }
+  .mp-vol-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+  }
+  .mp-vol-slider {
+    width: 68px;
+    cursor: pointer;
+  }
+  .mp-playlist {
+    background: #08120c;
+    box-shadow: var(--bevel-sunken-3d);
+    height: 115px;
+    overflow-y: auto;
+    padding: 4px;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: #aaddbb;
+  }
+  .mp-track-item {
+    padding: 3px 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #193322;
+  }
+  .mp-track-item:hover {
+    background: #143822;
+    color: #fff;
+  }
+  .mp-track-item.active-track {
+    background: #000080;
+    color: #ffff55;
+    font-weight: bold;
+  }
+
+  /* ===== POPUP ERRORS & BSOD ===== */
+<!-- ... existing code ... -->
+  .popup-error .popup-btns button {
+    min-width: 78px;
+    height: 25px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  /* ===== INTERACTIVE 3D CLIPPY CLONE ("Clippy Bhaiya") ===== */
+  #clippy-container {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 720;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none;
+  }
+  #clippy-balloon {
+    pointer-events: auto;
+    background: #ffffcc;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    padding: 10px 12px;
+    width: 264px;
+    color: #000;
+    font-family: "Tahoma", sans-serif;
+    font-size: 11px;
+    line-height: 1.45;
+    box-shadow:
+      inset 1px 1px 0 #ffffff,
+      4px 4px 0 rgba(0, 0, 0, 0.45),
+      8px 10px 18px rgba(0, 0, 0, 0.25);
+    position: relative;
+    margin-bottom: 12px;
+    transform-origin: bottom right;
+    animation: balloonPop 0.22s ease-out;
+  }
+  @keyframes balloonPop {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  #clippy-balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -11px;
+    right: 36px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 11px solid #000000;
+  }
+  #clippy-balloon::before {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    right: 37px;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 10px solid #ffffcc;
+    z-index: 1;
+  }
+  .clippy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: #000080;
+    border-bottom: 1px dotted #999966;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+  #clippy-text {
+    margin-bottom: 8px;
+    min-height: 36px;
+  }
+  .clippy-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .clippy-btn {
+    background: #ffffe0;
+    border: 1px solid #808000;
+    box-shadow: inset 1px 1px 0 #fff, 1px 1px 0 #000;
+    padding: 4px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: "Tahoma", sans-serif;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #000;
+    pointer-events: auto;
+  }
+  .clippy-btn:hover {
+    background: #000080;
+    color: #fff;
+  }
+  .clippy-btn:active {
+    transform: translate(1px, 1px);
+  }
+
+  #clippy-stage {
+    pointer-events: auto;
+    width: 96px;
+    height: 110px;
+    cursor: grab;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(5px 8px 6px rgba(0, 0, 0, 0.5));
+    animation: clippyFloat 2.8s ease-in-out infinite;
+  }
+  #clippy-stage:active {
+    cursor: grabbing;
+  }
+<!-- ... existing code ... -->
+<!-- DESKTOP (3D Stage) -->
+<div id="desktop" style="display:none">
+
+  <!-- Timer bar with 3D Depth & CRT Toggles -->
+  <div id="timer-bar">
+    <span class="cafe-name">
+      <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" width="16" height="16" alt="" onerror="this.style.display='none'">
+      iCafe Bhilai — Computer #7
+    </span>
+    <span>⏱️ Time Remaining: <span id="cafe-timer" class="timer-red">00:27:43</span></span>
+    <span>🌐 Speed: 56 Kbps</span>
+    <div class="top-bar-controls">
+      <span>👤 User: <strong id="current-user">pappu</strong></span>
+      <button class="win98-chip-btn" onclick="openWindow('music-window')" title="Open Winamp / Media Player 98">🎵 Winamp 98</button>
+      <button id="toggle-3d-btn" class="win98-chip-btn pressed" onclick="toggle3DDepth()" title="Toggle 3D Spatial Depth & Bevel Extrusion">🕶️ 3D Depth: ON</button>
+      <button id="toggle-crt-btn" class="win98-chip-btn pressed" onclick="toggleCRT()" title="Toggle CRT Monitor Scanlines">📺 CRT: ON</button>
+    </div>
+  </div>
+
+  <!-- 3D Sticky Note -->
+  <div id="sticky-note">
+    <strong>📋 NOTICE — Owner</strong>
+    ❌ DO NOT download games<br>
+    ❌ No Orkut after 8PM<br>
+    ❌ No loud music<br>
+    ⏰ Closing time: 10:30 PM<br>
+    ⚠️ Computer #4 still broken
+  </div>
+
+  <!-- Desktop Icons with Authentic Windows 98 Pixel Icons & Fallbacks -->
+<!-- ... existing code ... -->
+  <div class="desktop-icon" style="top:266px;left:96px" onclick="selectDesktopIcon(this)" ondblclick="openDONOTOPEN()">
+    <div class="icon-img">
+      <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/msg_warning-0.png" alt="DO_NOT_OPEN.exe" onerror="this.outerHTML='⚠️'">
+    </div>
+    <div class="icon-label">DO_NOT_OPEN .exe</div>
+  </div>
+
+  <div class="desktop-icon" style="top:342px;left:96px" onclick="selectDesktopIcon(this)" ondblclick="openWindow('music-window')">
+    <div class="icon-img">
+      <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png" alt="Media Player" onerror="this.outerHTML='🎵'">
+    </div>
+    <div class="icon-label">Media Player</div>
+  </div>
+
+  <!-- ===== NOTEPAD WINDOW ===== -->
+<!-- ... existing code ... -->
+  <!-- ===== CALCULATOR WINDOW ===== -->
+  <div id="calc-window" class="win98-window" style="width:222px;top:145px;left:400px" onmousedown="bringToFront('calc-window')">
+    <div class="win-titlebar" onmousedown="startDrag(event,'calc-window')">
+      <div class="win-title">
+        <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/calculator-0.png" alt="" onerror="this.outerHTML='🧮'">
+        <span>Calculator</span>
+      </div>
+      <div class="win-btns">
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="minimizeWin('calc-window', event)">_</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()">□</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="closeWindow('calc-window', event)">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar"><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="win-content">
+      <div class="calc-display-box">
+        <div class="calc-subdisplay" id="calc-subdisplay"></div>
+        <div class="calc-display" id="calc-display">0</div>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn orange" onmousedown="event.stopPropagation()" onclick="calcInput('Back', event)">Back</button>
+        <button type="button" class="calc-btn orange" onmousedown="event.stopPropagation()" onclick="calcInput('CE', event)">CE</button>
+        <button type="button" class="calc-btn orange" onmousedown="event.stopPropagation()" onclick="calcInput('C', event)">C</button>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('7', event)">7</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('8', event)">8</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('9', event)">9</button>
+        <button type="button" class="calc-btn orange" id="calc-op-div" onmousedown="event.stopPropagation()" onclick="calcInput('/', event)">÷</button>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('4', event)">4</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('5', event)">5</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('6', event)">6</button>
+        <button type="button" class="calc-btn orange" id="calc-op-mul" onmousedown="event.stopPropagation()" onclick="calcInput('*', event)">×</button>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('1', event)">1</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('2', event)">2</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('3', event)">3</button>
+        <button type="button" class="calc-btn orange" id="calc-op-sub" onmousedown="event.stopPropagation()" onclick="calcInput('-', event)">−</button>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('0', event)">0</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('+/-', event)">+/−</button>
+        <button type="button" class="calc-btn" onmousedown="event.stopPropagation()" onclick="calcInput('.', event)">.</button>
+        <button type="button" class="calc-btn orange" id="calc-op-add" onmousedown="event.stopPropagation()" onclick="calcInput('+', event)">+</button>
+      </div>
+      <div class="calc-row">
+        <button type="button" class="calc-btn orange" style="flex:3" onmousedown="event.stopPropagation()" onclick="calcInput('=', event)"><strong>=</strong></button>
+        <button type="button" class="calc-btn orange" onmousedown="event.stopPropagation()" onclick="calcInput('%', event)">%</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GUESTBOOK WINDOW ===== -->
+<!-- ... existing code ... -->
+  <!-- ===== ABOUT WINDOW ===== -->
+  <div id="about-window" class="win98-window" style="width:320px;top:120px;left:290px" onmousedown="bringToFront('about-window')">
+    <div class="win-titlebar" onmousedown="startDrag(event,'about-window')">
+      <div class="win-title">
+        <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/help_book_small-0.png" alt="" onerror="this.outerHTML='ℹ️'">
+        <span>About iCafe Bhilai</span>
+      </div>
+      <div class="win-btns">
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="minimizeWin('about-window', event)">_</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()">□</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="closeWindow('about-window', event)">✕</button>
+      </div>
+    </div>
+    <div class="win-content" style="padding:14px;background:#c0c0c0;text-align:center;font-size:12px;line-height:1.9">
+      <div style="margin-bottom:8px">
+        <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" width="40" height="40" alt="PC" onerror="this.outerHTML='💻'">
+      </div>
+      <strong style="font-size:14px;color:#000080">iCafe Bhilai</strong><br>
+      Sector 9, Near Bus Stand, Bhilai<br>
+      Chhattisgarh — 490009<br><br>
+      <div class="sunken-3d-well" style="background:#dfdfdf;padding:6px;margin-bottom:8px;font-size:11px">
+        <strong>Windows 98 Second Edition</strong><br>
+        4.10.2222 A &nbsp;•&nbsp; 98.css 3D UI Engine<br>
+        Intel Pentium II — 64 MB RAM
+      </div>
+      <em>"Aao, baitho, judo — Net se!"</em><br>
+      <span style="font-size:10px;color:#555">Est. 2001 — Ramesh Gupta Enterprises</span><br><br>
+      <button type="button" class="win98-push-btn" onmousedown="event.stopPropagation()" onclick="closeWindow('about-window', event)" style="padding:0 24px;font-weight:bold">OK</button>
+    </div>
+  </div>
+
+  <!-- ===== WINAMP / WINDOWS MEDIA PLAYER 98 WINDOW ===== -->
+  <div id="music-window" class="win98-window" style="width:360px;top:62px;left:240px" onmousedown="bringToFront('music-window')">
+    <div class="win-titlebar" onmousedown="startDrag(event,'music-window')">
+      <div class="win-title">
+        <img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png" alt="" onerror="this.outerHTML='🎵'">
+        <span>iCafe Winamp 98 — Bhilai Beats</span>
+      </div>
+      <div class="win-btns">
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="minimizeWin('music-window', event)">_</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()">□</button>
+        <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="closeWindow('music-window', event)">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span onclick="triggerLocalMp3Upload()"><u>F</u>ile (Load MP3)</span>
+      <span onclick="mpTogglePlay()"><u>P</u>lay</span>
+      <span onclick="mpNext()"><u>N</u>ext</span>
+      <span onclick="clippySay('🎵 <strong>DJ Clippy:</strong> Headphone pehen lo bhai, Ramesh Bhaiya ko loud bass pasand nahi hai!')"><u>H</u>elp</span>
+    </div>
+    <div class="win-content">
+      <div class="mp-deck">
+        <div class="mp-top-row">
+          <div class="mp-time-box" id="mp-time-display">00:00</div>
+          <div class="mp-marquee-box">
+            <span class="mp-track-title" id="mp-track-title">1. without_me_eminem.mp3</span>
+            <div class="mp-meta-line" id="mp-meta-line">128 kbps • 44 kHz • Stereo [STOPPED]</div>
+          </div>
+        </div>
+        <canvas id="mp-visualizer" width="320" height="58"></canvas>
+        <div class="mp-seek-wrap">
+          <span style="font-size:9px;color:#88cc99">POS</span>
+          <div class="mp-seek-bar" id="mp-seek-bar" onmousedown="event.stopPropagation()" onclick="mpSeekClick(event)">
+            <div class="mp-seek-fill" id="mp-seek-fill"></div>
+          </div>
+          <span style="font-size:9px;color:#88cc99" id="mp-duration-label">02:45</span>
+        </div>
+      </div>
+
+      <div class="mp-controls-row">
+        <div class="mp-transport">
+          <button type="button" class="mp-btn" title="Previous Track" onmousedown="event.stopPropagation()" onclick="mpPrev(event)">⏮</button>
+          <button type="button" class="mp-btn" id="mp-play-btn" title="Play / Pause" onmousedown="event.stopPropagation()" onclick="mpTogglePlay(event)">▶ Play</button>
+          <button type="button" class="mp-btn" title="Stop" onmousedown="event.stopPropagation()" onclick="mpStop(event)">⏹</button>
+          <button type="button" class="mp-btn" title="Next Track" onmousedown="event.stopPropagation()" onclick="mpNext(event)">⏭</button>
+          <button type="button" class="mp-btn" title="Load Local MP3/WAV File" onmousedown="event.stopPropagation()" onclick="triggerLocalMp3Upload(event)">📂 MP3</button>
+          <input type="file" id="mp-file-input" accept="audio/*" style="display:none" onchange="handleLocalAudioFile(event)">
+        </div>
+        <div class="mp-vol-wrap">
+          <button type="button" class="mp-btn" id="mp-mute-btn" style="min-width:24px;padding:0 4px" title="Mute / Unmute" onmousedown="event.stopPropagation()" onclick="mpToggleMute(event)">🔊</button>
+          <input type="range" class="mp-vol-slider" id="mp-vol-slider" min="0" max="100" value="75" onmousedown="event.stopPropagation()" oninput="mpChangeVolume(this.value)">
+        </div>
+      </div>
+
+      <div style="font-size:10px;font-weight:bold;margin:4px 0 2px;color:#000080">📋 C:\My Music\bhilai_top_2003.m3u</div>
+      <div class="mp-playlist" id="mp-playlist"></div>
+    </div>
+    <div class="win-statusbar">
+      <div class="statusbar-panel" id="mp-status-text">Sound Blaster 16 Ready</div>
+      <div class="statusbar-panel">Winamp v2.91 (x86)</div>
+    </div>
+  </div>
+
+</div><!-- end desktop -->
+
+<!-- ===== INTERACTIVE 3D CLIPPY CLONE ("Clippy Bhaiya") ===== -->
+<div id="clippy-container" style="display:none">
+  <div id="clippy-balloon">
+    <div class="clippy-header">
+      <span>📎 Clippy Bhaiya (iCafe Helper)</span>
+      <button type="button" class="win-btn" onmousedown="event.stopPropagation()" onclick="toggleClippy(false, event)" title="Minimize to System Tray">✕</button>
+    </div>
+    <div id="clippy-text">
+      Namaste! Main hoon <strong>Clippy Bhaiya</strong> 📎. Ramesh Gupta ne mujhe Computer #7 pe nazar rakhne ke liye lagaya hai. Kaho bhai, kya jugaad chahiye?
+    </div>
+    <div class="clippy-actions">
+      <button type="button" class="clippy-btn" onmousedown="event.stopPropagation()" onclick="clippyNextTip(event)">💡 Next Tip</button>
+      <button type="button" class="clippy-btn" onmousedown="event.stopPropagation()" onclick="clippyPlayDJ(event)">🎵 DJ Clippy</button>
+      <button type="button" class="clippy-btn" onmousedown="event.stopPropagation()" onclick="clippyBribeTimer(event)">⏱️ +5 Min</button>
+      <button type="button" class="clippy-btn" onmousedown="event.stopPropagation()" onclick="clippyDo3DFlip(event)">🤸 3D Flip</button>
+    </div>
+  </div>
+
+  <!-- 3D Metallic Shaded SVG Clippy with Eye Tracking -->
+  <div id="clippy-stage" onmousedown="startClippyDrag(event)" ondblclick="clippyDo3DFlip(event)" title="Click to toggle bubble, drag to move, or double-click for a 3D flip!">
+<!-- ... existing code ... -->
+<!-- START MENU -->
+<div id="start-menu">
+  <div class="sm-layout">
+    <div class="sm-header">Windows<span>98</span></div>
+    <div class="sm-items">
+      <div class="sm-item" onclick="openWindow('explorer-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" alt="" onerror="this.outerHTML='📁'"></span> My Computer
+      </div>
+      <div class="sm-item" onclick="openWindow('ie-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/msie1-2.png" alt="" onerror="this.outerHTML='🌐'"></span> Internet Explorer
+      </div>
+      <div class="sm-item" onclick="openWindow('music-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png" alt="" onerror="this.outerHTML='🎵'"></span> Media Player (Winamp)
+      </div>
+      <div class="sm-item" onclick="openWindow('notepad-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/notepad-5.png" alt="" onerror="this.outerHTML='📝'"></span> Notepad
+      </div>
+      <div class="sm-item" onclick="openWindow('calc-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/calculator-0.png" alt="" onerror="this.outerHTML='🧮'"></span> Calculator
+      </div>
+      <div class="sm-item" onclick="openWindow('minesweeper-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" alt="" onerror="this.outerHTML='💣'"></span> Minesweeper
+      </div>
+      <div class="sm-item" onclick="openWindow('guestbook-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/address_book_pad.png" alt="" onerror="this.outerHTML='📖'"></span> Guest Book
+      </div>
+      <div class="sm-item" onclick="toggleClippy(true);toggleStartMenu()">
+        <span class="sm-icon">📎</span> Clippy Bhaiya Assistant
+      </div>
+      <div id="sm-separator"></div>
+      <div class="sm-item" onclick="openWindow('about-window');toggleStartMenu()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/help_book_small-0.png" alt="" onerror="this.outerHTML='ℹ️'"></span> About iCafe
+      </div>
+      <div class="sm-item" onclick="triggerBSOD()">
+        <span class="sm-icon"><img class="win98-icon" src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-4.png" alt="" onerror="this.outerHTML='🔴'"></span> Shut Down...
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP ERRORS (Single-Click Instant Close Fixed — No 3D Tilt on Popups) -->
+<!-- ... existing code ... -->
+function finishBootNow() {
+  if (booted) return;
+  booted = true;
+  document.getElementById('boot-screen').style.display = 'none';
+  document.getElementById('desktop').style.display = 'block';
+  document.getElementById('taskbar').style.display = 'flex';
+  document.getElementById('clippy-container').style.display = 'flex';
+  startClock();
+  startCafeTimer();
+  initMinesweeper();
+  loadGuestbook();
+  loadIE('rediff');
+  initMusicPlayer();
+  initClippyBehavior();
+  // Auto popups (can be closed in 1 click or with ESC)
+  setTimeout(() => {
+    const p2 = document.getElementById('popup-error2');
+    if (p2) p2.style.display = 'block';
+  }, 3200);
+  setTimeout(() => {
+    const py2k = document.getElementById('popup-y2k');
+    if (py2k && !timerExpiredNotified) py2k.style.display = 'block';
+  }, 18000);
+}
+
+function bootTick() {
+<!-- ... existing code ... -->
+function toggle3DDepth() {
+  is3DDepthOn = !is3DDepthOn;
+  document.body.classList.toggle('depth-3d', is3DDepthOn);
+  const btn = document.getElementById('toggle-3d-btn');
+  btn.textContent = is3DDepthOn ? '🕶️ 3D Depth: ON' : '🕶️ 3D Depth: OFF';
+  btn.classList.toggle('pressed', is3DDepthOn);
+  if (!is3DDepthOn) {
+    document.getElementById('desktop').style.backgroundPosition = '0px 0px, center center';
+  } else {
+    clippySay("🕶️ <strong>3D Bevel & Parallax ON!</strong> Windows 98 ke raised/sunken 3D borders aur spatial depth active hain!");
+  }
+}
+
+function toggleCRT() {
+  isCRTOn = !isCRTOn;
+  document.body.classList.toggle('crt-off', !isCRTOn);
+  const btn = document.getElementById('toggle-crt-btn');
+  btn.textContent = isCRTOn ? '📺 CRT: ON' : '📺 CRT: OFF';
+  btn.classList.toggle('pressed', isCRTOn);
+}
+
+// Safe Desktop Background Parallax & Clippy Eye Tracking on Mouse Move
+document.addEventListener('mousemove', (e) => {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const nx = (e.clientX / w - 0.5) * 2;
+  const ny = (e.clientY / h - 0.5) * 2;
+
+  if (is3DDepthOn && booted) {
+    const desktop = document.getElementById('desktop');
+    const shiftX = (-nx * 8).toFixed(1);
+    const shiftY = (-ny * 8).toFixed(1);
+    desktop.style.backgroundPosition = `${shiftX}px ${shiftY}px, center center`;
+  }
+
+  // Track eyes of Clippy Bhaiya
+  const stage = document.getElementById('clippy-stage');
+  if (stage && document.getElementById('clippy-container').style.display !== 'none') {
+    const rect = stage.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+    const dist = Math.min(3.6, Math.hypot(e.clientX - cx, e.clientY - cy) / 45);
+    const ox = Math.cos(angle) * dist;
+    const oy = Math.sin(angle) * dist;
+
+    const pL = document.getElementById('clippy-pupil-left');
+    const pR = document.getElementById('clippy-pupil-right');
+    if (pL && pR) {
+      pL.setAttribute('cx', (33 + ox).toFixed(1));
+      pL.setAttribute('cy', (47 + oy).toFixed(1));
+      pR.setAttribute('cx', (61 + ox).toFixed(1));
+      pR.setAttribute('cy', (47 + oy).toFixed(1));
+    }
+  }
+});
+<!-- ... existing code ... -->
+const winMeta = {
+  'notepad-window': { label: 'Notepad', icon: 'https://win98icons.alexmeub.com/icons/png/notepad-5.png' },
+  'explorer-window': { label: 'My Computer', icon: 'https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png' },
+  'ie-window': { label: 'Internet Explorer', icon: 'https://win98icons.alexmeub.com/icons/png/msie1-2.png' },
+  'minesweeper-window': { label: 'Minesweeper', icon: 'https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png' },
+  'calc-window': { label: 'Calculator', icon: 'https://win98icons.alexmeub.com/icons/png/calculator-0.png' },
+  'guestbook-window': { label: 'Guest Book', icon: 'https://win98icons.alexmeub.com/icons/png/address_book_pad.png' },
+  'about-window': { label: 'About iCafe', icon: 'https://win98icons.alexmeub.com/icons/png/help_book_small-0.png' },
+  'music-window': { label: 'Winamp 98', icon: 'https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png' }
+};
+
+function openWindow(id) {
+<!-- ... existing code ... -->
+// ===================== CLIPPY BHAIYA 3D ASSISTANT =====================
+const clippyTips = [
+  "💡 <strong>Secret #1:</strong> Desktop pe <strong>Recycle Bin</strong> ko 3 baar double-click karo — Pappu ka chhupaya hua <code>secret_folder</code> khul jaayega!",
+  "💡 <strong>Secret #2:</strong> <strong>Calculator</strong> kholo aur <code>1998</code> type karke <code>=</code> dabao (ya <code>1000 + 998 =</code>) — Pokhran aur Sachin wala Easter Egg milega!",
+  "💡 <strong>Secret #3:</strong> Keyboard pe kahin bhi <code>matrix</code> type karo — pura Bhilai cyber cafe Matrix ban jaayega!",
+  "💡 <strong>Secret #4:</strong> <strong>My Computer &rarr; pappu</strong> folder mein <code>without_me_eminem.mp3</code> pe double-click karo — seedha Winamp mein bajega!",
+  "💡 <strong>Secret #5:</strong> <strong>Internet Explorer</strong> ke address bar mein <code>secret</code> likh ke Go dabao — Ramesh Bhaiya ka Owner Panel khul jaayega!"
+];
+let clippyTipIndex = 0;
+
+function initClippyBehavior() {
+  // Periodic natural eye blink
+  setInterval(() => {
+    const lidL = document.getElementById('clippy-lid-left');
+    const lidR = document.getElementById('clippy-lid-right');
+    if (!lidL || !lidR) return;
+    lidL.setAttribute('ry', '13');
+    lidR.setAttribute('ry', '13');
+    setTimeout(() => {
+      lidL.setAttribute('ry', '0');
+      lidR.setAttribute('ry', '0');
+    }, 160);
+  }, 4200);
+}
+
+function setClippyEyebrows(mood) {
+  const bL = document.getElementById('clippy-brow-left');
+  const bR = document.getElementById('clippy-brow-right');
+  if (!bL || !bR) return;
+  if (mood === 'excited') {
+    bL.setAttribute('d', 'M 21 29 Q 33 21 43 29');
+    bR.setAttribute('d', 'M 51 29 Q 63 21 73 29');
+  } else if (mood === 'mischief') {
+    bL.setAttribute('d', 'M 22 35 Q 33 29 42 31');
+    bR.setAttribute('d', 'M 52 29 Q 63 22 72 31');
+  } else {
+    bL.setAttribute('d', 'M 22 33 Q 33 27 42 33');
+    bR.setAttribute('d', 'M 52 33 Q 63 27 72 33');
+  }
+}
+
+function playClippyChime(freqStart = 520, freqEnd = 780) {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!window._uiAudioCtx) window._uiAudioCtx = new Ctx();
+    const ctx = window._uiAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freqStart, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(freqEnd, ctx.currentTime + 0.14);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.16);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.17);
+  } catch (err) {}
+}
+
+function clippySay(htmlText, mood = 'normal') {
+  const container = document.getElementById('clippy-container');
+  const balloon = document.getElementById('clippy-balloon');
+  const textEl = document.getElementById('clippy-text');
+  if (!container || !balloon || !textEl) return;
+  container.style.display = 'flex';
+  balloon.style.display = 'block';
+  textEl.innerHTML = htmlText;
+  setClippyEyebrows(mood);
+  const stage = document.getElementById('clippy-stage');
+  if (stage) {
+    stage.classList.remove('clippy-alert');
+    void stage.offsetWidth;
+    stage.classList.add('clippy-alert');
+  }
+}
+
+function clippyNextTip(e) {
+  if (e) e.stopPropagation();
+  playClippyChime(480, 720);
+  clippySay(clippyTips[clippyTipIndex], 'excited');
+  clippyTipIndex = (clippyTipIndex + 1) % clippyTips.length;
+}
+
+function clippyPlayDJ(e) {
+  if (e) e.stopPropagation();
+  openWindow('music-window');
+  if (!mpIsPlaying) {
+    mpPlayTrack(mpCurrentIndex);
+  } else {
+    mpNext();
+  }
+  clippyDo3DFlip();
+  clippySay(`🎧 <strong>DJ Clippy in the house!</strong> Abhi baj raha hai: <code>${mpTracks[mpCurrentIndex].title}</code>!`, 'excited');
+}
+
+function clippyBribeTimer(e) {
+  if (e) e.stopPropagation();
+  cafeSeconds += 300;
+  timerExpiredNotified = false;
+  playClippyChime(400, 880);
+  clippyDo3DFlip();
+  clippySay("🤫 <strong>Jugaad Success!</strong> Ramesh bhaiya abhi chai peene gaye hain, maine chupke se <strong>5 minute</strong> badha diye!", 'mischief');
+}
+
+function clippyDo3DFlip(e) {
+  if (e) e.stopPropagation();
+  playClippyChime(360, 920);
+  const stage = document.getElementById('clippy-stage');
+  if (!stage) return;
+  stage.classList.remove('clippy-flip3d');
+  void stage.offsetWidth;
+  stage.classList.add('clippy-flip3d');
+  setClippyEyebrows('excited');
+}
+
+function toggleClippy(forceShow, e) {
+  if (e) e.stopPropagation();
+  const c = document.getElementById('clippy-container');
+  const b = document.getElementById('clippy-balloon');
+  if (typeof forceShow === 'boolean') {
+    c.style.display = forceShow ? 'flex' : 'none';
+    if (forceShow) {
+      b.style.display = 'block';
+      playClippyChime(500, 750);
+    }
+    return;
+  }
+  if (c.style.display === 'none') {
+    c.style.display = 'flex';
+    b.style.display = 'block';
+    playClippyChime(500, 750);
+    clippySay("📎 <strong>Clippy Bhaiya Hazir Hai!</strong> Kaho bhai, gaana bajana hai, hisaab lagana hai, ya cafe time badhana hai?", 'excited');
+  } else if (b.style.display === 'none') {
+    b.style.display = 'block';
+    playClippyChime(500, 750);
+  } else {
+    c.style.display = 'none';
+  }
+}
+
+function onClippyContextForWindow(id) {
+  const msgs = {
+    'ie-window': "🌐 <strong>56K Dial-up Tip:</strong> Upar toolbar mein <strong>💼 Naukri</strong>, <strong>💬 Bhilai Chat</strong> ya <strong>🔐 Owner Panel</strong> pe click karke dekho!",
+    'minesweeper-window': "💣 <strong>Minesweeper!</strong> Dhyan se bhai, Ramesh Bhaiya peeche se dekh rahe hain ki kaam ho raha hai ya game!",
+    'notepad-window': "📝 <strong>Arre wah!</strong> Pappu ne apne saare passwords <code>pappu_todo.txt</code> mein khule chhod diye hain 😂",
+    'calc-window': "🧮 <strong>Calculator Fixed!</strong> Ab <code>5 + 3 = 8</code> bilkul makkhan chalega! Keyboard numpad bhi try karo, ya <code>1998 =</code> daba ke dekho!",
+    'music-window': "🎵 <strong>Winamp 98!</strong> Eminem, Kal Ho Na Ho, ya Nokia 3310 tune bajao — ya <strong>📂 MP3</strong> button se apna gaana upload karo!"
+  };
+  if (msgs[id]) clippySay(msgs[id]);
+}
+
+// Drag Clippy around screen + toggle bubble on simple click
+let clippyDragging = false, clippyMoved = false, clippyOX = 0, clippyOY = 0;
+function startClippyDrag(e) {
+  if (e.button !== 0) return;
+  e.stopPropagation();
+  const c = document.getElementById('clippy-container');
+  const r = c.getBoundingClientRect();
+  clippyDragging = true;
+  clippyMoved = false;
+  clippyOX = e.clientX - r.left;
+  clippyOY = e.clientY - r.top;
+  document.addEventListener('mousemove', onClippyDrag);
+  document.addEventListener('mouseup', stopClippyDrag);
+}
+function onClippyDrag(e) {
+  if (!clippyDragging) return;
+  clippyMoved = true;
+  const c = document.getElementById('clippy-container');
+  c.style.right = 'auto';
+  c.style.bottom = 'auto';
+  c.style.left = Math.max(10, Math.min(window.innerWidth - 110, e.clientX - clippyOX)) + 'px';
+  c.style.top = Math.max(30, Math.min(window.innerHeight - 140, e.clientY - clippyOY)) + 'px';
+}
+function stopClippyDrag() {
+  if (clippyDragging && !clippyMoved) {
+    const b = document.getElementById('clippy-balloon');
+    if (b) {
+      b.style.display = b.style.display === 'none' ? 'block' : 'none';
+      playClippyChime(540, 680);
+    }
+  }
+  clippyDragging = false;
+  document.removeEventListener('mousemove', onClippyDrag);
+  document.removeEventListener('mouseup', stopClippyDrag);
+}
+
+// ===================== INTERNET EXPLORER =====================
+<!-- ... existing code ... -->
+// ===================== FILE EXPLORER =====================
+const folderContents = {
+  pappu: [
+    { icon: 'https://win98icons.alexmeub.com/icons/png/notepad_file-2.png', fallback: '📝', name: 'todo_aaj.txt', action: () => openWindow('notepad-window') },
+    { icon: 'https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png', fallback: '🎵', name: 'without_me_eminem.mp3', action: () => { openWindow('music-window'); mpPlayTrack(0); } },
+    { icon: 'https://win98icons.alexmeub.com/icons/png/notepad_file-2.png', fallback: '🏏', name: 'ind_vs_pak_score.txt', action: () => showCustomNote('🏏 India vs Pakistan — Sharjah 2003\n\nIndia: 320/5 (50 overs)\n  Sachin: 150* 🔥\n  Ganguly: 67\n\nPakistan: 287 all out\n\nINDIA JEET GAYE!!! 🇮🇳\n\nSachin OP hai bhai 🙌') },
+    { icon: 'https://win98icons.alexmeub.com/icons/png/message_envelope_open-0.png', fallback: '💌', name: 'sunita_ka_message.txt', action: () => showCustomNote('Sunita ne likha:\n\n"Kal ke baad main agle city shift ho rahi hoon.\nTumse milna chahti thi ek baar.\nRed Gate pe aaoge? 5 baje?\n\n— Sunita ❤️"\n\n[Pappu ne jawab diya: "aa jaunga jaldi" — 3 din baad]\n[Sunita: *seen* — no reply]') },
+    { icon: 'https://win98icons.alexmeub.com/icons/png/kodak_imaging-0.png', fallback: '📸', name: 'selfie_kal.jpg', action: () => showError('Paint', 'Image file corrupt hai ya format support nahi hai.\nShayad 56K modem pe download pura nahi hua.') }
+  ],
+  admin: [
+<!-- ... existing code ... -->
+  if (msBoard[r][c] === -1) {
+    msRevealed[r][c] = true;
+    msGameOver = true;
+    clearInterval(msTimerInterval);
+    document.getElementById('ms-face').textContent = '😵';
+    for (let rr = 0; rr < MS_ROWS; rr++) for (let cc = 0; cc < MS_COLS; cc++) if (msBoard[rr][cc] === -1) msRevealed[rr][cc] = true;
+    renderMSGrid();
+    clippySay("💥 <strong>Arre bhai phat gaya!</strong> Smiley (😵) pe click karke phir se try karo!", 'mischief');
+    return;
+  }
+  msReveal(r, c);
+  renderMSGrid();
+  if (msCheckWin()) {
+    msGameOver = true;
+    clearInterval(msTimerInterval);
+    document.getElementById('ms-face').textContent = '😎';
+    clippyDo3DFlip();
+    clippySay("😎 <strong>Kya baat hai Champion!</strong> Minesweeper jeet liya " + msTimerVal + "s mein!", 'excited');
+    showError('Minesweeper', '🎉 Tu jeet gaya bhai!\nTime: ' + msTimerVal + ' seconds\n\nRamesh bhaiya ko dikhana mat!');
+  }
+}
+
+function msReveal(r, c) {
+<!-- ... existing code ... -->
+function msCheckWin() {
+  for (let r = 0; r < MS_ROWS; r++) for (let c = 0; c < MS_COLS; c++) if (msBoard[r][c] !== -1 && !msRevealed[r][c]) return false;
+  return true;
+}
+
+// ===================== CALCULATOR (FIXED STATE MACHINE) =====================
+let calcDisplay = '0';
+let calcFirstOp = null;
+let calcOperator = null;
+let calcWaitingForSecond = false;
+
+function formatCalcNumber(num) {
+  if (num === 'ERR' || isNaN(num) || !isFinite(num)) return 'ERR';
+  let str = String(Number(parseFloat(num).toPrecision(12)));
+  if (str.length > 12) {
+    str = parseFloat(num).toExponential(4);
+  }
+  return str;
+}
+
+function updateCalcUI(subText) {
+  const dispEl = document.getElementById('calc-display');
+  const subEl = document.getElementById('calc-subdisplay');
+  if (dispEl) dispEl.textContent = calcDisplay;
+  if (subEl) {
+    if (typeof subText === 'string') {
+      subEl.textContent = subText;
+    } else if (calcFirstOp !== null && calcOperator) {
+      const sym = { '+': '+', '-': '−', '*': '×', '/': '÷' }[calcOperator] || calcOperator;
+      subEl.textContent = `${calcFirstOp} ${sym}`;
+    } else {
+      subEl.textContent = '';
+    }
+  }
+  // Highlight active operator button
+  const opIds = { '+': 'calc-op-add', '-': 'calc-op-sub', '*': 'calc-op-mul', '/': 'calc-op-div' };
+  Object.values(opIds).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active-op');
+  });
+  if (calcWaitingForSecond && calcOperator && opIds[calcOperator]) {
+    const activeBtn = document.getElementById(opIds[calcOperator]);
+    if (activeBtn) activeBtn.classList.add('active-op');
+  }
+}
+
+function performCalculation(a, b, op) {
+  if (op === '+') return a + b;
+  if (op === '-') return a - b;
+  if (op === '*') return a * b;
+  if (op === '/') return b === 0 ? 'ERR' : a / b;
+  return b;
+}
+
+function checkCalc1998EasterEgg(val) {
+  if (String(val) === '1998') {
+    clippyDo3DFlip();
+    clippySay("🤯 <strong>1998 Easter Egg Unlocked!</strong> Pokhran-II, Sachin ka Sharjah Desert Storm aur Windows 98 ka saal!", 'excited');
+    showError('Calculator Easter Egg', "🤯 1998 Easter Egg Found!\n\n• India's Pokhran-II tests 💥\n• Sachin's Sharjah Desert Storm 🏏\n• Windows 98 Launch 🖥️\n• iCafe Bhilai ka sapna 💻");
+  }
+}
+
+function calcInput(v, e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  if (v === 'C') {
+    calcDisplay = '0';
+    calcFirstOp = null;
+    calcOperator = null;
+    calcWaitingForSecond = false;
+    updateCalcUI('');
+    return;
+  }
+
+  if (v === 'CE') {
+    calcDisplay = '0';
+    updateCalcUI();
+    return;
+  }
+
+  if (v === 'Back') {
+    if (calcWaitingForSecond) return;
+    if (calcDisplay === 'ERR') {
+      calcDisplay = '0';
+    } else {
+      calcDisplay = calcDisplay.length > 1 ? calcDisplay.slice(0, -1) : '0';
+      if (calcDisplay === '-' || calcDisplay === '-0') calcDisplay = '0';
+    }
+    updateCalcUI();
+    return;
+  }
+
+  if (v === '+/-') {
+    if (calcDisplay === '0' || calcDisplay === 'ERR') return;
+    calcDisplay = calcDisplay.startsWith('-') ? calcDisplay.slice(1) : '-' + calcDisplay;
+    updateCalcUI();
+    return;
+  }
+
+  if (v === '%') {
+    if (calcDisplay === 'ERR') return;
+    const current = parseFloat(calcDisplay);
+    if (calcFirstOp !== null && (calcOperator === '+' || calcOperator === '-')) {
+      calcDisplay = formatCalcNumber((calcFirstOp * current) / 100);
+    } else {
+      calcDisplay = formatCalcNumber(current / 100);
+    }
+    calcWaitingForSecond = false;
+    updateCalcUI();
+    return;
+  }
+
+  if (v === '.') {
+    if (calcWaitingForSecond || calcDisplay === 'ERR') {
+      calcDisplay = '0.';
+      calcWaitingForSecond = false;
+    } else if (!calcDisplay.includes('.')) {
+      calcDisplay += '.';
+    }
+    updateCalcUI();
+    return;
+  }
+
+  if (v === '+' || v === '-' || v === '*' || v === '/') {
+    if (calcDisplay === 'ERR') {
+      calcDisplay = '0';
+      calcFirstOp = 0;
+      calcOperator = v;
+      calcWaitingForSecond = true;
+      updateCalcUI();
+      return;
+    }
+    const inputVal = parseFloat(calcDisplay);
+    if (calcOperator && calcWaitingForSecond) {
+      // User changed operator before typing second operand
+      calcOperator = v;
+      updateCalcUI();
+      return;
+    }
+    if (calcFirstOp === null) {
+      calcFirstOp = inputVal;
+    } else if (calcOperator) {
+      const result = performCalculation(calcFirstOp, inputVal, calcOperator);
+      calcDisplay = formatCalcNumber(result);
+      calcFirstOp = result === 'ERR' ? null : parseFloat(calcDisplay);
+    }
+    calcOperator = v;
+    calcWaitingForSecond = true;
+    updateCalcUI();
+    return;
+  }
+
+  if (v === '=') {
+    if (calcDisplay === 'ERR') return;
+    const inputVal = parseFloat(calcDisplay);
+    if (calcOperator && calcFirstOp !== null) {
+      const sym = { '+': '+', '-': '−', '*': '×', '/': '÷' }[calcOperator] || calcOperator;
+      const exprText = `${calcFirstOp} ${sym} ${inputVal} =`;
+      const result = performCalculation(calcFirstOp, inputVal, calcOperator);
+      calcDisplay = formatCalcNumber(result);
+      calcFirstOp = null;
+      calcOperator = null;
+      calcWaitingForSecond = true;
+      updateCalcUI(exprText);
+      checkCalc1998EasterEgg(calcDisplay);
+    } else {
+      calcWaitingForSecond = true;
+      updateCalcUI(`${calcDisplay} =`);
+      checkCalc1998EasterEgg(calcDisplay);
+    }
+    return;
+  }
+
+  // Digits 0-9
+  if (/^[0-9]$/.test(v)) {
+    if (calcWaitingForSecond || calcDisplay === 'ERR') {
+      calcDisplay = v;
+      calcWaitingForSecond = false;
+    } else {
+      if (calcDisplay.replace(/[-.]/g, '').length >= 12) return;
+      calcDisplay = calcDisplay === '0' ? v : calcDisplay + v;
+    }
+    updateCalcUI();
+  }
+}
+
+// Keyboard support when Calculator window is active
+document.addEventListener('keydown', (e) => {
+  const calcWin = document.getElementById('calc-window');
+  if (!calcWin || calcWin.style.display === 'none' || !calcWin.classList.contains('active-window')) return;
+  const activeTag = document.activeElement ? document.activeElement.tagName : '';
+  if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
+
+  if (/^[0-9]$/.test(e.key)) {
+    calcInput(e.key, e);
+  } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+    calcInput(e.key, e);
+  } else if (e.key === '.') {
+    calcInput('.', e);
+  } else if (e.key === 'Enter' || e.key === '=') {
+    calcInput('=', e);
+  } else if (e.key === 'Backspace') {
+    calcInput('Back', e);
+  } else if (e.key === 'Delete') {
+    calcInput('CE', e);
+  } else if (e.key === '%') {
+    calcInput('%', e);
+  }
+});
+
+// ===================== FUNCTIONAL MUSIC PLAYER (WINAMP 98 SYNTH + MP3 UPLOAD) =====================
+const mpTracks = [
+  {
+    title: "without_me_eminem.mp3",
+    meta: "128 kbps • 44 kHz • Hip-Hop Bass",
+    duration: 145,
+    bpm: 112,
+    wave: "sawtooth",
+    bassWave: "triangle",
+    // Iconic bouncy hip-hop riff + bassline
+    melody: [293.66, 329.63, 349.23, 392.00, 349.23, 329.63, 293.66, 0, 293.66, 349.23, 440.00, 392.00, 349.23, 329.63, 261.63, 293.66],
+    bass:   [73.42,  73.42,  87.31,  87.31,  98.00,  98.00,  82.41,  73.42],
+    drums:  [1, 0, 2, 0, 1, 1, 2, 0] // 1=kick, 2=snare, 3=hat
+  },
+  {
+    title: "kal_ho_na_ho_2003.mid",
+    meta: "64 kbps • MIDI • Bollywood Synth",
+    duration: 180,
+    bpm: 94,
+    wave: "sine",
+    bassWave: "sine",
+    melody: [392.00, 440.00, 493.88, 523.25, 493.88, 440.00, 392.00, 329.63, 349.23, 392.00, 440.00, 392.00, 349.23, 329.63, 293.66, 392.00],
+    bass:   [130.81, 130.81, 164.81, 164.81, 174.61, 174.61, 196.00, 196.00],
+    drums:  [1, 3, 2, 3, 1, 3, 2, 3]
+  },
+  {
+    title: "dil_chahta_hai_mix.mp3",
+    meta: "160 kbps • 44 kHz • Indie Rock Synth",
+    duration: 162,
+    bpm: 122,
+    wave: "triangle",
+    bassWave: "sawtooth",
+    melody: [329.63, 392.00, 440.00, 493.88, 440.00, 392.00, 329.63, 293.66, 329.63, 392.00, 523.25, 493.88, 440.00, 392.00, 440.00, 0],
+    bass:   [110.00, 110.00, 146.83, 146.83, 130.81, 130.81, 98.00,  98.00],
+    drums:  [1, 3, 2, 1, 1, 3, 2, 3]
+  },
+  {
+    title: "nokia_3310_ringtone.mid",
+    meta: "32 kbps • Mono • Grande Valse",
+    duration: 95,
+    bpm: 150,
+    wave: "square",
+    bassWave: "triangle",
+    // Authentic Nokia tune intervals (E6, D6, F#5, G#5, C#6, B5, D5, E5, B5, A5, C#5, E5, A5)
+    melody: [659.25, 587.33, 369.99, 415.30, 554.37, 493.88, 293.66, 329.63, 493.88, 440.00, 277.18, 329.63, 440.00, 0, 440.00, 0],
+    bass:   [110.00, 0,      146.83, 0,      164.81, 0,      110.00, 0],
+    drums:  [1, 0, 3, 0, 2, 0, 3, 0]
+  },
+  {
+    title: "counter_strike_1.6.wav",
+    meta: "192 kbps • Tactical 16-bit Beat",
+    duration: 130,
+    bpm: 134,
+    wave: "sawtooth",
+    bassWave: "sawtooth",
+    melody: [220.00, 0, 220.00, 261.63, 246.94, 0, 196.00, 220.00, 293.66, 261.63, 246.94, 220.00, 196.00, 174.61, 164.81, 0],
+    bass:   [55.00,  55.00,  55.00,  65.41,  58.27,  58.27,  49.00,  55.00],
+    drums:  [1, 3, 2, 3, 1, 1, 2, 3]
+  }
+];
+
+let mpAudioCtx = null;
+let mpMasterGain = null;
+let mpAnalyser = null;
+let mpCurrentIndex = 0;
+let mpIsPlaying = false;
+let mpIsMuted = false;
+let mpVolume = 0.75;
+let mpStepIndex = 0;
+let mpStepTimer = null;
+let mpClockTimer = null;
+let mpElapsedSeconds = 0;
+let mpCustomAudio = null;
+let mpCustomSourceNode = null;
+let mpVisFrameId = null;
+
+function ensureMpAudioGraph() {
+  if (!mpAudioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    mpAudioCtx = new Ctx();
+    mpMasterGain = mpAudioCtx.createGain();
+    mpMasterGain.gain.value = mpIsMuted ? 0 : mpVolume;
+    mpAnalyser = mpAudioCtx.createAnalyser();
+    mpAnalyser.fftSize = 64;
+    mpMasterGain.connect(mpAnalyser);
+    mpAnalyser.connect(mpAudioCtx.destination);
+  }
+  if (mpAudioCtx.state === 'suspended') {
+    mpAudioCtx.resume();
+  }
+}
+
+function initMusicPlayer() {
+  renderMpPlaylist();
+  updateMpTrackHeader();
+  startMpVisualizerLoop();
+}
+
+function renderMpPlaylist() {
+  const pl = document.getElementById('mp-playlist');
+  if (!pl) return;
+  pl.innerHTML = '';
+  mpTracks.forEach((tr, idx) => {
+    const item = document.createElement('div');
+    item.className = 'mp-track-item' + (idx === mpCurrentIndex ? ' active-track' : '');
+    const mins = Math.floor(tr.duration / 60).toString().padStart(2, '0');
+    const secs = (tr.duration % 60).toString().padStart(2, '0');
+    item.innerHTML = `<span>${idx + 1}. ${tr.title}</span><span>${mins}:${secs}</span>`;
+    item.onclick = (e) => {
+      e.stopPropagation();
+      mpPlayTrack(idx);
+    };
+    pl.appendChild(item);
+  });
+}
+
+function formatMMSS(sec) {
+  const s = Math.max(0, Math.floor(sec));
+  const m = Math.floor(s / 60).toString().padStart(2, '0');
+  const r = (s % 60).toString().padStart(2, '0');
+  return `${m}:${r}`;
+}
+
+function updateMpTrackHeader() {
+  const tr = mpTracks[mpCurrentIndex];
+  if (!tr) return;
+  document.getElementById('mp-track-title').textContent = `${mpCurrentIndex + 1}. ${tr.title}`;
+  document.getElementById('mp-meta-line').textContent = `${tr.meta} [${mpIsPlaying ? 'PLAYING' : 'STOPPED'}]`;
+  document.getElementById('mp-duration-label').textContent = formatMMSS(tr.duration);
+  document.getElementById('mp-time-display').textContent = formatMMSS(mpElapsedSeconds);
+  const pct = tr.duration > 0 ? Math.min(100, (mpElapsedSeconds / tr.duration) * 100) : 0;
+  document.getElementById('mp-seek-fill').style.width = pct + '%';
+  const playBtn = document.getElementById('mp-play-btn');
+  if (playBtn) {
+    playBtn.textContent = mpIsPlaying ? '⏸ Pause' : '▶ Play';
+    playBtn.classList.toggle('active-play', mpIsPlaying);
+  }
+}
+
+function playSynthStep(track, step) {
+  if (!mpAudioCtx || !mpIsPlaying) return;
+  const now = mpAudioCtx.currentTime;
+  const stepDur = (60 / track.bpm) / 2;
+
+  // Melody note
+  const noteFreq = track.melody[step % track.melody.length];
+  if (noteFreq > 0) {
+    const osc = mpAudioCtx.createOscillator();
+    const gain = mpAudioCtx.createGain();
+    osc.type = track.wave || 'sawtooth';
+    osc.frequency.setValueAtTime(noteFreq, now);
+    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.exponentialRampToValueAtTime(0.008, now + stepDur * 0.92);
+    osc.connect(gain);
+    gain.connect(mpMasterGain);
+    osc.start(now);
+    osc.stop(now + stepDur * 0.95);
+  }
+
+  // Bassline
+  const bassFreq = track.bass[Math.floor(step / 2) % track.bass.length];
+  if (bassFreq > 0 && step % 2 === 0) {
+    const bOsc = mpAudioCtx.createOscillator();
+    const bGain = mpAudioCtx.createGain();
+    bOsc.type = track.bassWave || 'triangle';
+    bOsc.frequency.setValueAtTime(bassFreq, now);
+    bGain.gain.setValueAtTime(0.24, now);
+    bGain.gain.exponentialRampToValueAtTime(0.01, now + stepDur * 1.8);
+    bOsc.connect(bGain);
+    bGain.connect(mpMasterGain);
+    bOsc.start(now);
+    bOsc.stop(now + stepDur * 1.85);
+  }
+
+  // Drum synthesis (1 = kick, 2 = snare, 3 = hi-hat)
+  const drumType = track.drums[step % track.drums.length];
+  if (drumType === 1) {
+    const kOsc = mpAudioCtx.createOscillator();
+    const kGain = mpAudioCtx.createGain();
+    kOsc.type = 'sine';
+    kOsc.frequency.setValueAtTime(130, now);
+    kOsc.frequency.exponentialRampToValueAtTime(38, now + 0.11);
+    kGain.gain.setValueAtTime(0.32, now);
+    kGain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+    kOsc.connect(kGain);
+    kGain.connect(mpMasterGain);
+    kOsc.start(now);
+    kOsc.stop(now + 0.13);
+  } else if (drumType === 2 || drumType === 3) {
+    const dur = drumType === 2 ? 0.09 : 0.035;
+    const bufferSize = Math.floor(mpAudioCtx.sampleRate * dur);
+    const buffer = mpAudioCtx.createBuffer(1, bufferSize, mpAudioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.4));
+    }
+    const noise = mpAudioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const nGain = mpAudioCtx.createGain();
+    nGain.gain.setValueAtTime(drumType === 2 ? 0.16 : 0.06, now);
+    nGain.gain.exponentialRampToValueAtTime(0.005, now + dur);
+    noise.connect(nGain);
+    nGain.connect(mpMasterGain);
+    noise.start(now);
+  }
+}
+
+function stopMpTimers() {
+  if (mpStepTimer) { clearInterval(mpStepTimer); mpStepTimer = null; }
+  if (mpClockTimer) { clearInterval(mpClockTimer); mpClockTimer = null; }
+  if (mpCustomAudio) {
+    mpCustomAudio.pause();
+  }
+}
+
+function mpPlayTrack(index) {
+  ensureMpAudioGraph();
+  stopMpTimers();
+  if (typeof index === 'number') {
+    if (mpCurrentIndex !== index) {
+      mpElapsedSeconds = 0;
+      mpStepIndex = 0;
+      if (mpCustomAudio) mpCustomAudio.currentTime = 0;
+    }
+    mpCurrentIndex = (index + mpTracks.length) % mpTracks.length;
+  }
+  const track = mpTracks[mpCurrentIndex];
+  mpIsPlaying = true;
+  renderMpPlaylist();
+  updateMpTrackHeader();
+  document.getElementById('mp-status-text').textContent = `Playing: ${track.title}`;
+
+  if (track.isCustomFile && track.audioEl) {
+    mpCustomAudio = track.audioEl;
+    mpCustomAudio.play().catch(() => {});
+    mpClockTimer = setInterval(() => {
+      if (!mpIsPlaying) return;
+      mpElapsedSeconds = Math.floor(mpCustomAudio.currentTime || 0);
+      if (mpCustomAudio.ended) {
+        mpNext();
+        return;
+      }
+      updateMpTrackHeader();
+    }, 300);
+    return;
+  }
+
+  const stepIntervalMs = ((60 / track.bpm) / 2) * 1000;
+  playSynthStep(track, mpStepIndex++);
+  mpStepTimer = setInterval(() => {
+    if (!mpIsPlaying) return;
+    playSynthStep(track, mpStepIndex++);
+  }, stepIntervalMs);
+
+  mpClockTimer = setInterval(() => {
+    if (!mpIsPlaying) return;
+    mpElapsedSeconds++;
+    if (mpElapsedSeconds >= track.duration) {
+      mpNext();
+      return;
+    }
+    updateMpTrackHeader();
+  }, 1000);
+}
+
+function mpTogglePlay(e) {
+  if (e) e.stopPropagation();
+  if (mpIsPlaying) {
+    mpIsPlaying = false;
+    stopMpTimers();
+    updateMpTrackHeader();
+    document.getElementById('mp-status-text').textContent = 'Paused';
+  } else {
+    mpPlayTrack(mpCurrentIndex);
+  }
+}
+
+function mpStop(e) {
+  if (e) e.stopPropagation();
+  mpIsPlaying = false;
+  stopMpTimers();
+  mpElapsedSeconds = 0;
+  mpStepIndex = 0;
+  if (mpCustomAudio) mpCustomAudio.currentTime = 0;
+  updateMpTrackHeader();
+  document.getElementById('mp-status-text').textContent = 'Stopped';
+}
+
+function mpPrev(e) {
+  if (e) e.stopPropagation();
+  mpElapsedSeconds = 0;
+  mpStepIndex = 0;
+  mpPlayTrack(mpCurrentIndex - 1);
+}
+
+function mpNext(e) {
+  if (e) e.stopPropagation();
+  mpElapsedSeconds = 0;
+  mpStepIndex = 0;
+  mpPlayTrack(mpCurrentIndex + 1);
+}
+
+function mpSeekClick(e) {
+  e.stopPropagation();
+  const bar = document.getElementById('mp-seek-bar');
+  const rect = bar.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const track = mpTracks[mpCurrentIndex];
+  mpElapsedSeconds = Math.floor(ratio * track.duration);
+  if (track.isCustomFile && track.audioEl) {
+    track.audioEl.currentTime = mpElapsedSeconds;
+  }
+  updateMpTrackHeader();
+}
+
+function mpChangeVolume(val) {
+  mpVolume = Math.max(0, Math.min(1, parseFloat(val) / 100));
+  if (mpMasterGain && !mpIsMuted) {
+    mpMasterGain.gain.value = mpVolume;
+  }
+}
+
+function mpToggleMute(e) {
+  if (e) e.stopPropagation();
+  mpIsMuted = !mpIsMuted;
+  if (mpMasterGain) {
+    mpMasterGain.gain.value = mpIsMuted ? 0 : mpVolume;
+  }
+  const btn = document.getElementById('mp-mute-btn');
+  if (btn) btn.textContent = mpIsMuted ? '🔇' : '🔊';
+}
+
+function triggerLocalMp3Upload(e) {
+  if (e) e.stopPropagation();
+  const inp = document.getElementById('mp-file-input');
+  if (inp) inp.click();
+}
+
+function handleLocalAudioFile(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  ensureMpAudioGraph();
+  const url = URL.createObjectURL(file);
+  const audio = new Audio(url);
+  audio.crossOrigin = "anonymous";
+  audio.addEventListener('loadedmetadata', () => {
+    const srcNode = mpAudioCtx.createMediaElementSource(audio);
+    srcNode.connect(mpMasterGain);
+    const customTrack = {
+      title: file.name,
+      meta: "Local MP3/Audio • Stereo",
+      duration: Math.max(1, Math.floor(audio.duration || 180)),
+      isCustomFile: true,
+      audioEl: audio
+    };
+    mpTracks.push(customTrack);
+    mpPlayTrack(mpTracks.length - 1);
+    clippySay(`🎧 <strong>Custom Track Loaded!</strong> Abhi baj raha hai: <code>${file.name}</code>!`, 'excited');
+  });
+}
+
+function startMpVisualizerLoop() {
+  const canvas = document.getElementById('mp-visualizer');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const bars = 24;
+  const freqData = new Uint8Array(32);
+
+  function draw() {
+    ctx.fillStyle = '#030705';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Subtle grid lines
+    ctx.strokeStyle = 'rgba(0, 120, 60, 0.18)';
+    ctx.beginPath();
+    for (let y = 12; y < canvas.height; y += 12) {
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+    }
+    ctx.stroke();
+
+    if (mpAnalyser && mpIsPlaying) {
+      mpAnalyser.getByteFrequencyData(freqData);
+    }
+
+    const barW = Math.floor((canvas.width - 16) / bars);
+    for (let i = 0; i < bars; i++) {
+      let val = 4;
+      if (mpIsPlaying) {
+        const raw = freqData[i % freqData.length] || 0;
+        const synthPulse = Math.abs(Math.sin(Date.now() / 110 + i * 0.55)) * 28;
+        val = Math.min(canvas.height - 4, Math.max(6, (raw / 255) * canvas.height * 0.85 + synthPulse));
+      }
+      const x = 8 + i * barW;
+      const y = canvas.height - val;
+      const grad = ctx.createLinearGradient(0, canvas.height, 0, 4);
+      grad.addColorStop(0, '#00cc44');
+      grad.addColorStop(0.65, '#ccff00');
+      grad.addColorStop(1, '#ff3300');
+      ctx.fillStyle = grad;
+      ctx.fillRect(x, y, barW - 2, val);
+
+      // Peak cap
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(x, Math.max(2, y - 3), barW - 2, 2);
+    }
+    mpVisFrameId = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===================== GUESTBOOK =====================
